@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111210">
+  <meta name="description" content="Register your purchase and submit your invoice for verification.">
+  <title>AIGNER · Invoice registration</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#invoice-form">Skip to registration form</a>
+  <header class="masthead">
+    <a class="wordmark" href="/" aria-label="Aigner invoice registration">AIGNER<span>MUNICH</span></a>
+    <span class="masthead-label">PURCHASE REGISTRATION</span>
+    <a class="header-link" href="#document">Your invoice <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main class="layout">
+    <aside class="introduction">
+      <p class="eyebrow"><span class="gold-dash"></span> THE DETAILS MATTER</p>
+      <h1>Register your<br><em>purchase.</em></h1>
+      <p class="intro-copy">A place for every detail. Share your purchase information and invoice to begin verification.</p>
+      <nav class="section-nav" aria-label="Form sections">
+        <a href="#purchase"><span>01</span> Your purchase <span aria-hidden="true">↗</span></a>
+        <a href="#customer"><span>02</span> Your details <span aria-hidden="true">↗</span></a>
+        <a href="#document"><span>03</span> Your invoice <span aria-hidden="true">↗</span></a>
+      </nav>
+      <div class="note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6"/></svg>
+        <div><h2>Have your invoice ready</h2><p>A clear PDF, JPG or PNG.<br>One document, up to 10 MB.</p></div>
+      </div>
+      <p class="intro-footnote">Once submitted, your invoice will be marked as pending verification.</p>
+    </aside>
+
+    <div class="form-surface">
+      <div class="form-heading"><span>INVOICE REGISTRATION</span><span><b>*</b> Required fields</span></div>
+      <noscript><p class="notice">Please enable JavaScript to submit this form.</p></noscript>
+      <form id="invoice-form" enctype="multipart/form-data">
+        <fieldset id="form-fields" class="form-fields">
+          <section id="purchase" class="form-section" aria-labelledby="purchase-title">
+            <div class="section-heading"><span class="section-number">01</span><div><h2 id="purchase-title">Your purchase</h2><p>The details on your invoice.</p></div></div>
+            <div class="field-grid">
+              <div class="field"><label for="companyId">Company ID <b>*</b></label><input id="companyId" name="companyId" type="text" inputmode="numeric" pattern="[0-9]+" maxlength="19" placeholder="e.g. 1" required aria-describedby="company-hint"><small id="company-hint">Use the company ID provided to you.</small></div>
+              <div class="field"><label for="purchaseDate">Purchase date <b>*</b></label><input id="purchaseDate" name="purchaseDate" type="date" required></div>
+              <div class="field"><label for="invoiceNumber">Invoice number</label><input id="invoiceNumber" name="invoiceNumber" maxlength="255" placeholder="e.g. INV-2026-001"></div>
+              <div class="field"><label for="referenceNumber">Reference number</label><input id="referenceNumber" name="referenceNumber" maxlength="255" placeholder="Your purchase reference"></div>
+              <div class="field"><label for="sku">Product code / SKU</label><input id="sku" name="sku" maxlength="255" placeholder="As listed on your invoice"></div>
+              <div class="field"><label for="purchasedFrom">Purchased from</label><input id="purchasedFrom" name="purchasedFrom" maxlength="255" placeholder="Store or retailer name"></div>
+            </div>
+          </section>
+
+          <section id="customer" class="form-section" aria-labelledby="customer-title">
+            <div class="section-heading"><span class="section-number">02</span><div><h2 id="customer-title">Your details</h2><p>Tell us a little about yourself.</p></div><span class="optional">OPTIONAL</span></div>
+            <div class="field-grid">
+              <div class="field"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" maxlength="255" placeholder="Your full name"></div>
+              <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" maxlength="255" placeholder="you@example.com"></div>
+              <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="255" placeholder="Include your country code"></div>
+              <div class="field"><label for="country">Country</label><input id="country" name="country" autocomplete="country-name" maxlength="255" placeholder="Your country"></div>
+            </div>
+            <details class="additional"><summary>Additional information <span aria-hidden="true">+</span></summary><div class="field"><label for="customData">Additional details</label><textarea id="customData" name="customData" rows="3" maxlength="255" placeholder='e.g. {"watchReference":"WR-123"}' aria-describedby="custom-hint"></textarea><small id="custom-hint">Optional notes or brand-specific data. Up to 255 characters.</small></div></details>
+          </section>
+
+          <section id="document" class="form-section document-section" aria-labelledby="document-title">
+            <div class="section-heading"><span class="section-number">03</span><div><h2 id="document-title">Your invoice</h2><p>Make sure the purchase details are clearly visible.</p></div></div>
+            <div class="upload-zone" id="upload-zone">
+              <input class="file-input" id="invoiceImage" name="invoiceImage" type="file" accept="application/pdf,image/jpeg,image/png,.pdf,.jpg,.jpeg,.png" required aria-label="Choose invoice document" aria-describedby="file-hint file-error">
+              <svg class="upload-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M9 3h10l5 5v21H9zM19 3v6h5M16 23V13m-4 4 4-4 4 4"/></svg>
+              <p id="file-title">Drop your invoice here, or <span>browse files</span></p>
+              <small id="file-hint">PDF, JPG or PNG · Maximum 10 MB</small>
+            </div>
+            <div class="file-selection" id="file-selection" hidden><span id="file-description"></span><button type="button" id="remove-file" aria-label="Remove selected invoice">Remove <span aria-hidden="true">×</span></button></div>
+            <p class="field-error" id="file-error" role="alert" hidden></p>
+            <label class="consent" for="marketingConsent"><input id="marketingConsent" name="marketingConsent" type="checkbox"><span>I’d like to receive news, collections and offers from AIGNER. <small>Optional.</small></span></label>
+          </section>
+        </fieldset>
+        <div class="notice notice-error" id="submit-error" role="alert" tabindex="-1" hidden></div>
+        <div class="submit-row"><p>Your invoice will be submitted<br>for verification.</p><button class="primary-button" id="submit-button" type="submit"><span id="submit-label">Submit invoice</span><span class="button-arrow" aria-hidden="true">↗</span><span class="spinner" aria-hidden="true" hidden></span></button></div>
+        <p class="submission-status" id="submission-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <section class="success" id="success" aria-labelledby="success-title" tabindex="-1" hidden>
+        <span class="success-check" aria-hidden="true">✓</span><p class="eyebrow">SUBMISSION RECEIVED</p><h2 id="success-title">Every detail,<br><em>accounted for.</em></h2><p>Your invoice has been submitted successfully. Keep your invoice ID for reference.</p>
+        <dl class="receipt"><div><dt>Invoice ID</dt><dd id="receipt-id"></dd></div><div><dt>Company ID</dt><dd id="receipt-company"></dd></div><div><dt>Status</dt><dd><span class="status-badge" id="receipt-status"></span></dd></div></dl>
+        <button class="primary-button" id="start-again" type="button">Submit another invoice <span aria-hidden="true">↗</span></button>
+      </section>
+    </div>
+  </main>
+  <footer class="footer"><span class="footer-wordmark">AIGNER</span><span>INVOICE VERIFICATION</span><a href="#purchase">Back to top <span aria-hidden="true">↑</span></a></footer>
+</body>
+</html>

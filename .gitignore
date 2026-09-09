@@ -1,4 +1,12 @@
 HELP.md
+.DS_Store
+.env
+.env.*
+!.env.example
+.icloud-placeholder-backup*/
+.codex-build/
+.codex-docs/
+.codex-finalizer/
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
