@@ -1,28 +1,18 @@
 spring:
   application:
     name: invoice-verification-system
-
-  datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:invoice_db}
-    username: ${DB_USERNAME:invoice_user}
-    password: ${DB_PASSWORD:invoice_password}
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: false
-    properties:
-      hibernate:
-        jdbc:
-          time_zone: UTC
-
+  profiles:
+    default: dev
   servlet:
     multipart:
       max-file-size: 10MB
-      # Allow multipart fields and boundaries in addition to a 10 MB document.
-      max-request-size: 12MB
+      max-request-size: 11MB
 
 aws:
-  s3:
-     bucket-name: invoice-verification-documents-invoice-image
+  region: ${AWS_REGION:ap-south-1}
+
+server:
+  shutdown: graceful
+
+spring.lifecycle:
+  timeout-per-shutdown-phase: 20s

@@ -1,44 +1,33 @@
 package com.invoiceverification.invoice_verification_system.invoice.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class InvoiceSubmission {
 
-    @NotNull(message = "Company ID is required")
-    private Long companyId;
+    @Size(max = 100) private String invoiceNumber;
+    @Size(max = 100) private String referenceNumber;
+    @Size(max = 100) private String sku;
 
-    private String invoiceNumber;
-    private String referenceNumber;
-    private String sku;
-
-    @NotNull(message = "Purchase date is required")
+    @NotNull(message = "Purchase date is required") @PastOrPresent(message = "Purchase date cannot be in the future")
     private LocalDate purchaseDate;
 
-    private String customData;
+    @Size(max = 5000) private String customData;
 
     // Customer information
-    private String name;
-    private String email;
-    private String phone;
-    private String country;
+    @Size(max = 150) private String name;
+    @Email(message = "Enter a valid email address") @Size(max = 255) private String email;
+    @Size(max = 50) private String phone;
+    @Size(max = 100) private String country;
 
     // Product information
-    private String purchasedFrom;
+    @Size(max = 255) private String purchasedFrom;
 
     // Marketing preference
     private Boolean marketingConsent;
-
-
-    // Company ID
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
 
     // Invoice number
     public String getInvoiceNumber() {

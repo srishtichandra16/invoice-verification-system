@@ -1,0 +1,23 @@
+[Unit]
+Description=Invoice verification Spring Boot application
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=invoiceapp
+Group=invoiceapp
+WorkingDirectory=/opt/invoice-verification
+EnvironmentFile=/etc/invoice-verification/invoice.env
+ExecStart=/usr/bin/java -XX:MaxRAMPercentage=70 -jar /opt/invoice-verification/app.jar
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

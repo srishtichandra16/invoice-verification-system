@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+
+server:
+  forward-headers-strategy: framework
+
+app:
+  bootstrap-brands: ${APP_BOOTSTRAP_BRANDS:aigner}
+  seed-admins: ${SEED_ADMINS:false}
+  seed-admin:
+    brand-slug: ${ADMIN_BRAND_SLUG:aigner}
+    email: ${ADMIN_EMAIL:}
+    password: ${ADMIN_PASSWORD:}
+  security:
+    require-https: true
+
+aws:
+  region: ${AWS_REGION}
+  s3:
+    bucket-name: ${AWS_S3_BUCKET}
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: WARN

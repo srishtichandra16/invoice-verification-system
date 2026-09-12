@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:invoice_db}
+    username: ${DB_USERNAME:invoice_user}
+    password: ${DB_PASSWORD:invoice_password}
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:dev-schema.sql
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+app:
+  bootstrap-brands: ${APP_BOOTSTRAP_BRANDS:aigner}
+  seed-admins: ${SEED_ADMINS:false}
+  seed-admin:
+    brand-slug: ${ADMIN_BRAND_SLUG:aigner}
+    email: ${ADMIN_EMAIL:}
+    password: ${ADMIN_PASSWORD:}
+  security:
+    require-https: false
+
+aws:
+  s3:
+    bucket-name: ${AWS_S3_BUCKET:invoice-verification-documents-invoice-image}

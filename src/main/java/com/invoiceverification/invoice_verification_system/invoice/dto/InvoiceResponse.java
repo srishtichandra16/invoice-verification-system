@@ -6,22 +6,19 @@ public class InvoiceResponse {
 
     private Long invoiceId;
     private String message;
-    private Long companyId;
-    private String objectKey;
+    private String brandSlug;
     private String verificationStatus;
     private LocalDateTime createdAt;
 
     public InvoiceResponse(
             Long invoiceId,
-            Long companyId,
-            String objectKey,
+            String brandSlug,
             String verificationStatus,
             LocalDateTime createdAt,
             String message) {
 
         this.invoiceId = invoiceId;
-        this.companyId = companyId;
-        this.objectKey = objectKey;
+        this.brandSlug = brandSlug;
         this.verificationStatus = verificationStatus;
         this.createdAt = createdAt;
         this.message = message;
@@ -31,12 +28,8 @@ public class InvoiceResponse {
         return invoiceId;
     }
 
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public String getObjectKey() {
-        return objectKey;
+    public String getBrandSlug() {
+        return brandSlug;
     }
 
     public String getVerificationStatus() {

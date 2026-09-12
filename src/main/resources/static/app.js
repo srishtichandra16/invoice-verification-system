@@ -12,7 +12,25 @@
   const success = document.getElementById('success');
   const allowedTypes = new Set(['application/pdf', 'image/jpeg', 'image/png']);
   const maxFileBytes = 10 * 1024 * 1024;
+  const pathParts = window.location.pathname.split('/').filter(Boolean);
+  const brandSlug = pathParts.length >= 2 && pathParts[1] === 'register' ? pathParts[0] : 'aigner';
+  let brandName = brandSlug.toUpperCase();
   let submitting = false;
+
+  async function loadBrand() {
+    try {
+      const response = await fetch(`/api/public/brands/${encodeURIComponent(brandSlug)}`, { headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error();
+      const brand = await response.json();
+      brandName = brand.displayName;
+      document.title = `${brandName} · Invoice registration`;
+      document.querySelectorAll('[data-brand-name]').forEach(node => { node.textContent = brandName; });
+    } catch {
+      showError('This registration link is unavailable. Please use the link provided by the brand.');
+      button.disabled = true;
+    }
+  }
+  loadBrand();
 
   function showFileError(message) {
     fileError.textContent = message;
@@ -72,13 +90,6 @@
     updateFile();
   });
 
-  const company = document.getElementById('companyId');
-  function validateCompany() {
-    const value = company.value.trim();
-    const valid = /^[0-9]+$/.test(value) && BigInt(value) > 0n && BigInt(value) <= 9223372036854775807n;
-    company.setCustomValidity(valid || !value ? '' : 'Enter a positive company ID, up to 9223372036854775807.');
-  }
-  company.addEventListener('input', validateCompany);
   form.addEventListener('input', event => event.target.removeAttribute('aria-invalid'));
 
   function setBusy(busy) {
@@ -109,18 +120,16 @@
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (submitting) return;
-    validateCompany();
     if (!form.reportValidity() || !updateFile()) return;
     error.hidden = true;
     // Build the multipart body before disabling the form controls.
     const payload = new FormData(form);
-    payload.set('companyId', company.value.trim());
     payload.set('marketingConsent', String(document.getElementById('marketingConsent').checked));
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 120000);
     setBusy(true);
     try {
-      const response = await fetch('/api/invoices', {
+      const response = await fetch(`/api/public/brands/${encodeURIComponent(brandSlug)}/invoices`, {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: payload,
@@ -137,7 +146,7 @@
       }
       if (data.invoiceId == null) throw new Error('The server responded, but no invoice ID was returned. Please check with support before submitting again.');
       document.getElementById('receipt-id').textContent = `#${data.invoiceId}`;
-      document.getElementById('receipt-company').textContent = data.companyId ?? payload.get('companyId');
+      document.getElementById('receipt-brand').textContent = data.brandSlug?.toUpperCase() ?? brandName;
       document.getElementById('receipt-status').textContent = data.verificationStatus === 'PENDING'
         ? 'Pending verification' : data.verificationStatus || 'Submitted';
       form.hidden = true;
@@ -159,7 +168,6 @@
 
   document.getElementById('start-again').addEventListener('click', () => {
     form.reset();
-    company.setCustomValidity('');
     for (const field of form.querySelectorAll('[aria-invalid]')) field.removeAttribute('aria-invalid');
     showFileError('');
     selection.hidden = true;
@@ -167,6 +175,6 @@
     success.hidden = true;
     form.hidden = false;
     document.querySelector('.additional').open = false;
-    company.focus();
+    document.getElementById('purchaseDate').focus();
   });
 })();
